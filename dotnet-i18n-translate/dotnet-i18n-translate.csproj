@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<Nullable>enable</Nullable>
+		<TargetFramework>net5.0</TargetFramework>
+		<RootNamespace>dotnet_i18n_translate</RootNamespace>
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>i18n-translate</ToolCommandName>
+		<Authors>Steven Thuriot</Authors>
+		<Company />
+		<Version>0.0.2-preview</Version>
+		<Description>Helper tool to translate ngx translate files</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/StevenThuriot/dotnet-i18n-translate</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/StevenThuriot/dotnet-i18n-translate</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+		<PackageTags>i18n deepl translate</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommandLineParser" Version="2.8.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+	</ItemGroup>
+
+</Project>
