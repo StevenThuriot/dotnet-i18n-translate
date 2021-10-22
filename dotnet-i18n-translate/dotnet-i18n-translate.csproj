@@ -9,7 +9,7 @@
 		<ToolCommandName>i18n-translate</ToolCommandName>
 		<Authors>Steven Thuriot</Authors>
 		<Company />
-		<Version>0.0.3-preview</Version>
+		<Version>0.0.4-preview</Version>
 		<Description>Helper tool to translate ngx translate files</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/StevenThuriot/dotnet-i18n-translate</PackageProjectUrl>

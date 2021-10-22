@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace dotnet_i18n_translate
@@ -70,6 +71,7 @@ namespace dotnet_i18n_translate
             }
         }
 
+        private static readonly Regex _variableCorrectingRegex = new(@"{{\W*(?<variable>\w+)\W*}}", RegexOptions.Compiled);
         private async Task Translate(Translation sourceTranslation, FileInfo target)
         {
             _logger.LogInformation("Translating {source} to {target}", sourceTranslation.Language, target.Name);
@@ -77,14 +79,39 @@ namespace dotnet_i18n_translate
             var targetTranslation = await Translation.Create(target, _logger);
 
             var missingKeys = _options.SpecificKeys?.Any() == true ? _options.SpecificKeys : targetTranslation.FindMissing(sourceTranslation);
-            var sourceRows = sourceTranslation.Get(missingKeys);
-            
-            var targetRows = await _translationService.Translate(sourceRows, sourceTranslation.Language, targetTranslation.Language);
+            var sourceRows = sourceTranslation.Get(missingKeys).ToList();
+
+            var targetRows = (await _translationService.Translate(sourceRows, sourceTranslation.Language, targetTranslation.Language)).ToList();
 
             int i = 0;
             foreach (var key in missingKeys)
             {
-                targetTranslation.Set(key, targetRows.ElementAt(i++));
+                var value = targetRows[i];
+
+                var sourceMatches = _variableCorrectingRegex.Matches(sourceRows[i]);
+                var targetMatches = _variableCorrectingRegex.Matches(value);
+
+                if (sourceMatches.Count > 0)
+                {
+                    if (sourceMatches.Count == targetMatches.Count)
+                    {
+                        for (int m = 0; m < sourceMatches.Count; m++)
+                        {
+                            var sourceMatch = sourceMatches[m];
+                            var targetMatch = targetMatches[m];
+
+                            value = value.Replace(targetMatch.ToString(), sourceMatch.ToString());
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Something might have gone wrong translating {source} to {target} for {key}.", sourceTranslation.Language, targetTranslation.Language, key);
+                    }
+                }
+
+                targetTranslation.Set(key, value);
+
+                i++;
             }
 
             await targetTranslation.Save();
