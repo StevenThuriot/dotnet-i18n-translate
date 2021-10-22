@@ -71,7 +71,7 @@ namespace dotnet_i18n_translate
             }
         }
 
-        private static readonly Regex _variableCorrectingRegex = new(@"{{\W*(?<variable>\w+)\W*}}", RegexOptions.Compiled);
+        private static readonly Regex _variableCorrectingRegex = new(@"{{\W*(?<variable>.+?)\W*}}", RegexOptions.Compiled);
         private async Task Translate(Translation sourceTranslation, FileInfo target)
         {
             _logger.LogInformation("Translating {source} to {target}", sourceTranslation.Language, target.Name);
