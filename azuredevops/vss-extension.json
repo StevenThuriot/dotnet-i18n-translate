@@ -1,0 +1,36 @@
+{
+    "manifestVersion": 1,
+    "id": "i18ntranslate",
+    "name": "i18n-translate",
+    "version": "0.0.5",
+    "publisher": "StevenThuriot",
+    "targets": [
+      {
+        "id": "Microsoft.VisualStudio.Services"
+      }
+    ],
+    "description": "Translates all missing i18n entries in PR builds",
+    "categories": [
+      "Azure Pipelines"
+    ],
+    "icons": {
+      "default": "i18ntranslate/icon.png"
+    },
+    "files": [
+      {
+        "path": "i18ntranslate"
+      }
+    ],
+    "contributions": [
+      {
+        "id": "i18ntranslate",
+        "type": "ms.vss-distributed-task.task",
+        "targets": [
+          "ms.vss-distributed-task.tasks"
+        ],
+        "properties": {
+          "name": "i18ntranslate"
+        }
+      }
+    ]
+  }

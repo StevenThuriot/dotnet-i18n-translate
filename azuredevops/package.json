@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "tfx": "tfx",
+    "tfx-create": "tfx extension create --manifest-globs vss-extension.json"
+  },
+  "devDependencies": {
+    "tfx-cli": "^0.9.3"
+  }
+}
