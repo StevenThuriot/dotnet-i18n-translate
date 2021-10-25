@@ -61,7 +61,7 @@ namespace dotnet_i18n_translate
             }
 
             parameters.Add(Pair("target_lang", targetLanguageCode?.ToUpperInvariant() ?? throw new ArgumentNullException(nameof(targetLanguageCode))));
-            parameters.Add(Pair("split_sentences", "0"));
+            parameters.Add(Pair("split_sentences", "1"));
             parameters.Add(Pair("preserve_formatting", "1"));
             parameters.Add(Pair("auth_key", _authKey));
 
