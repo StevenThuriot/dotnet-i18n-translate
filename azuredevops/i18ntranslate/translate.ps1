@@ -1,6 +1,6 @@
-# Set the working directory.
-[string]$cwd = Get-VstsInput -Name cwd
+[string]$authkey = Get-VstsInput -Name authkey -Require
 
+[string]$cwd = Get-VstsInput -Name cwd
 if ($cwd) {
     Assert-VstsPath -LiteralPath $cwd -PathType Container
     
@@ -9,8 +9,6 @@ if ($cwd) {
 }
 
 [string]$translateVersion = Get-VstsInput -Name translateVersion
-[string]$authkey = Get-VstsInput -Name authkey -Require
-[bool]$free = Get-VstsInput -Name free -Require
 
 $myBranch = ($env:SYSTEM_PULLREQUEST_SOURCEBRANCH).substring(11);
 
@@ -26,7 +24,7 @@ if ($translateVersion) {
     dotnet  tool install --local dotnet-i18n-translate
 }
 
-if ($free -eq $true) {
+if ($authkey -match ':fx$') {
     dotnet i18n-translate --free -a $authkey
 } else {
     dotnet i18n-translate -a $authkey
@@ -35,7 +33,7 @@ if ($free -eq $true) {
 git add '*.json'
 git reset './.config'
 
-if(git status --porcelain |Where {$_ -notmatch '^\?\?'}) {
+if(git status --porcelain |Where-Object {$_ -notmatch '^\?\?'}) {
     git config --global user.name "Steven Thuriot"
     git config --global user.email i18n@thuriot.be
 

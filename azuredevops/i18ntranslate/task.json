@@ -41,14 +41,6 @@
       "label": "DeepL AuthKey",
       "required": true,
       "helpMarkDown": "Auth Key used for the DeepL API."
-    },
-    {
-      "name": "free",
-      "type": "boolean",
-      "label": "DeepL Free",
-      "defaultValue": true,
-      "required": false,
-      "helpMarkDown": "Toggle if the DeepL auth key belongs to a free account."
     }
   ],
   "execution": {
