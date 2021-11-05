@@ -29,7 +29,7 @@ ServiceProvider BuildServiceProvider()
                          .AddHttpClient().RemoveAll<IHttpMessageHandlerBuilderFilter>()
                          .AddLogging(c =>
                          {
-                             c.AddConsole().AddDebug();
+                             c.AddConsole(x => x.Format = Microsoft.Extensions.Logging.Console.ConsoleLoggerFormat.Systemd).AddDebug();
                              c.SetMinimumLevel(options.Verbose ? LogLevel.Trace : LogLevel.Information);
                          })
                          .AddSingleton(options)

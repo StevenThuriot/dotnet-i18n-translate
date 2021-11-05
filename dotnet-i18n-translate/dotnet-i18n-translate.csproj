@@ -9,7 +9,7 @@
 		<ToolCommandName>i18n-translate</ToolCommandName>
 		<Authors>Steven Thuriot</Authors>
 		<Company />
-		<Version>0.0.6-preview</Version>
+		<Version>0.1.0-preview</Version>
 		<Description>Helper tool to translate ngx translate files</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/StevenThuriot/dotnet-i18n-translate</PackageProjectUrl>
@@ -24,6 +24,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
 </Project>

@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -71,14 +69,14 @@ namespace dotnet_i18n_translate
             }
         }
 
-        private static readonly Regex _variableCorrectingRegex = new(@"{{\W*(?<variable>.+?)\W*}}", RegexOptions.Compiled);
+        private static readonly Regex s_variableCorrectingRegex = new(@"{{\W*(?<variable>.+?)\W*}}", RegexOptions.Compiled);
         private async Task Translate(Translation sourceTranslation, FileInfo target)
         {
             _logger.LogInformation("Translating {source} to {target}", sourceTranslation.Language, target.Name);
 
             var targetTranslation = await Translation.Create(target, _logger);
 
-            var missingKeys = _options.SpecificKeys?.Any() == true ? _options.SpecificKeys : targetTranslation.FindMissing(sourceTranslation);
+            var missingKeys = _options.SpecificKeys?.Any() == true ? _options.SpecificKeys.Select(x => new JsonPath(x)).ToList() : targetTranslation.FindMissing(sourceTranslation);
             var sourceRows = sourceTranslation.Get(missingKeys).ToList();
 
             var targetRows = (await _translationService.Translate(sourceRows, sourceTranslation.Language, targetTranslation.Language)).ToList();
@@ -86,10 +84,10 @@ namespace dotnet_i18n_translate
             int i = 0;
             foreach (var key in missingKeys)
             {
-                var value = targetRows[i];
+                string value = targetRows[i];
 
-                var sourceMatches = _variableCorrectingRegex.Matches(sourceRows[i]);
-                var targetMatches = _variableCorrectingRegex.Matches(value);
+                var sourceMatches = s_variableCorrectingRegex.Matches(sourceRows[i]);
+                var targetMatches = s_variableCorrectingRegex.Matches(value);
 
                 if (sourceMatches.Count > 0)
                 {

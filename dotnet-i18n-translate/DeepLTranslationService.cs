@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -22,7 +23,7 @@ namespace dotnet_i18n_translate
             _httpClientFactory = httpClientFactory;
 
             _authKey = options.AuthKey;
-            _apiBaseUrl = (options.IsFree ? FreeApiBaseUrl : ProApiBaseUrl) + "?auth_key=" + _authKey;
+            _apiBaseUrl = (_authKey.EndsWith(":fx", StringComparison.OrdinalIgnoreCase) ? FreeApiBaseUrl : ProApiBaseUrl) + "?auth_key=" + _authKey;
         }
 
         public async Task<IEnumerable<string>> Translate(IEnumerable<string> texts, string? sourceLanguageCode, string targetLanguageCode, CancellationToken cancellationToken)
@@ -46,8 +47,8 @@ namespace dotnet_i18n_translate
                 throw new ApplicationException(error);
             }
 
-            using var stream = await responseMessage.Content.ReadAsStreamAsync(cancellationToken);
-            var translationResultContent = await Serializer.Deserialize<TranslationResult>(stream, cancellationToken: cancellationToken);
+            var stringContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+            var translationResultContent = JsonConvert.DeserializeObject<TranslationResult>(stringContent);
             return translationResultContent?.translations?.Select(x => x.text ?? "") ?? Enumerable.Empty<string>();
         }
 

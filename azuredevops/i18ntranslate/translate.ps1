@@ -1,3 +1,12 @@
+$myBranch = $env:SYSTEM_PULLREQUEST_SOURCEBRANCH;
+
+if (!$myBranch) {
+    Write-Error "Task could not determine value for the SYSTEM_PULLREQUEST_SOURCEBRANCH environment variable"
+    exit 1 #fail, not a PR
+}
+
+$myBranch = $myBranch.substring(11);
+
 [string]$authkey = Get-VstsInput -Name authkey -Require
 
 [string]$cwd = Get-VstsInput -Name cwd
@@ -9,8 +18,6 @@ if ($cwd) {
 }
 
 [string]$translateVersion = Get-VstsInput -Name translateVersion
-
-$myBranch = ($env:SYSTEM_PULLREQUEST_SOURCEBRANCH).substring(11);
 
 git fetch origin $myBranch
 git checkout -f $myBranch
@@ -24,11 +31,9 @@ if ($translateVersion) {
     dotnet  tool install --local dotnet-i18n-translate
 }
 
-if ($authkey -match ':fx$') {
-    dotnet i18n-translate --free -a $authkey
-} else {
-    dotnet i18n-translate -a $authkey
-}
+#TODO: Pass in default language
+
+dotnet i18n-translate -a $authkey
 
 git add '*.json'
 git reset './.config'

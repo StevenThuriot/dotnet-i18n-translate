@@ -22,9 +22,6 @@ namespace dotnet_i18n_translate
         [Option('k', "key", Required = false, HelpText = "Specific key to translate. If it already exists it will be overwritten.")]
         public IEnumerable<string>? SpecificKeys { get; set; } = null!;
 
-        [Option("free", Default = false, Required = false, HelpText = "Wether the DeepL account is free or not")]
-        public bool IsFree { get; set; }
-
         public static Options? Get(string[] args)
         {
             var parser = new Parser(with => with.HelpWriter = Console.Out);
