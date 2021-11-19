@@ -1,9 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-i18n-translate", "dotnet-i18n-translate\dotnet-i18n-translate.csproj", "{2E3B04C6-936A-401B-B223-E4E67A02CBAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-i18n-translate", "dotnet-i18n-translate\dotnet-i18n-translate.csproj", "{2E3B04C6-936A-401B-B223-E4E67A02CBAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{175C50AF-06D8-4810-A460-C44B237C09C1}"
+	ProjectSection(SolutionItems) = preProject
+		azuredevops\CreateExtension.cmd = azuredevops\CreateExtension.cmd
+		azuredevops\readme.md = azuredevops\readme.md
+		azuredevops\i18ntranslate\task.json = azuredevops\i18ntranslate\task.json
+		azuredevops\i18ntranslate\translate.ps1 = azuredevops\i18ntranslate\translate.ps1
+		azuredevops\vss-extension.json = azuredevops\vss-extension.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

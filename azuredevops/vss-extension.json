@@ -1,36 +1,69 @@
 {
-    "manifestVersion": 1,
-    "id": "i18ntranslate",
-    "name": "i18n-translate",
-    "version": "0.0.6",
-    "publisher": "StevenThuriot",
-    "targets": [
-      {
-        "id": "Microsoft.VisualStudio.Services"
-      }
-    ],
-    "description": "Translates all missing i18n entries in PR builds",
-    "categories": [
-      "Azure Pipelines"
-    ],
-    "icons": {
-      "default": "i18ntranslate/icon.png"
+  "manifestVersion": 1,
+  "id": "i18ntranslate",
+  "name": "i18n-translate",
+  "version": "0.1.3",
+  "publisher": "StevenThuriot",
+  "helpMarkDown": "[More Information](https://github.com/StevenThuriot/dotnet-i18n-translate)",
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "description": "Translates all missing i18n entries in PR builds",
+  "categories": [
+    "Azure Pipelines"
+  ],
+  "content": {
+    "details": {
+      "path": "readme.md"
     },
-    "files": [
-      {
-        "path": "i18ntranslate"
+    "license": {
+      "path": "LICENSE"
+    }
+  },
+  "links": {
+    "getstarted": {
+      "uri": "https://github.com/StevenThuriot/dotnet-i18n-translate"
+    },
+    "support": {
+      "uri": "https://github.com/StevenThuriot/dotnet-i18n-translate"
+    },
+    "issues": {
+      "uri": "https://github.com/StevenThuriot/dotnet-i18n-translate/issues"
+    }
+  },
+  "icons": {
+    "default": "images/icon.png",
+    "large": "images/icon-large.png"
+  },
+  "files": [
+    {
+      "path": "i18ntranslate"
+    },
+    {
+      "path": "images/icon.png",
+      "addressable": true
+    },
+    {
+      "path": "images/icon-large.png",
+      "addressable": true
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/StevenThuriot/dotnet-i18n-translate"
+  },
+  "contributions": [
+    {
+      "id": "i18ntranslate",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "i18ntranslate"
       }
-    ],
-    "contributions": [
-      {
-        "id": "i18ntranslate",
-        "type": "ms.vss-distributed-task.task",
-        "targets": [
-          "ms.vss-distributed-task.tasks"
-        ],
-        "properties": {
-          "name": "i18ntranslate"
-        }
-      }
-    ]
-  }
+    }
+  ]
+}

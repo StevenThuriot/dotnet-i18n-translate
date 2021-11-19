@@ -31,9 +31,13 @@ if ($translateVersion) {
     dotnet  tool install --local dotnet-i18n-translate
 }
 
-#TODO: Pass in default language
+[string]$defaultLanguage = Get-VstsInput -Name defaultLanguage
 
-dotnet i18n-translate -a $authkey
+if ($defaultLanguage) {
+    dotnet i18n-translate -a $authkey -l $defaultLanguage
+} else {
+    dotnet i18n-translate -a $authkey
+}
 
 git add '*.json'
 git reset './.config'

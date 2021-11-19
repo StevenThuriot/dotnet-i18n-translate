@@ -16,7 +16,16 @@
 		<RepositoryUrl>https://github.com/StevenThuriot/dotnet-i18n-translate</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
 		<PackageTags>i18n deepl translate</PackageTags>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\azuredevops\i18ntranslate\icon.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CommandLineParser" Version="2.8.0" />
