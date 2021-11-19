@@ -43,7 +43,7 @@ namespace dotnet_i18n_translate
             var myKeys = _keys.Value;
             var theirKeys = translation._keys.Value;
 
-            return myKeys.Except(theirKeys);
+            return theirKeys.Except(myKeys);
         }
 
         private IEnumerable<JsonPath> ListKeys(JToken token)

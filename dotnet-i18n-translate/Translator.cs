@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -65,7 +66,14 @@ namespace dotnet_i18n_translate
 
             foreach (var target in targetFiles)
             {
-                await Translate(sourceTranslation, target);
+                try
+                {
+                    await Translate(sourceTranslation, target);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "An error occurred while translating {source} to {target}", sourceTranslation.Language, target.Name);
+                }
             }
         }
 

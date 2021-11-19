@@ -72,8 +72,7 @@ namespace dotnet_i18n_translate
 
         public bool TryGet(JObject document, [NotNullWhen(true)] out string? value)
         {
-            string path = ToString();
-            var token = document.SelectToken(path);
+            JToken? token = _path.Aggregate((JToken?)document, (result, next) => result?[next]);
 
             if (token is null)
             {
