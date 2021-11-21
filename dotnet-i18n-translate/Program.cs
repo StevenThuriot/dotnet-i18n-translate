@@ -2,8 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
-using Microsoft.Extensions.Logging;
-using System;
+using Microsoft.Extensions.Logging.Console;
 
 Options? options;
 
@@ -29,7 +28,8 @@ ServiceProvider BuildServiceProvider()
                          .AddHttpClient().RemoveAll<IHttpMessageHandlerBuilderFilter>()
                          .AddLogging(c =>
                          {
-                             c.AddConsole(x => x.Format = Microsoft.Extensions.Logging.Console.ConsoleLoggerFormat.Systemd).AddDebug();
+                             c.AddConsoleFormatter<SuperSimpleConsoleFormatter, ConsoleFormatterOptions>().AddConsole(o => o.FormatterName = nameof(SuperSimpleConsoleFormatter));
+                             c.AddDebug();
                              c.SetMinimumLevel(options.Verbose ? LogLevel.Trace : LogLevel.Information);
                          })
                          .AddSingleton(options)
