@@ -37,11 +37,11 @@ public sealed class DeepLTranslationService : ITranslationService
 
         if (!responseMessage.IsSuccessStatusCode)
         {
-            var error = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+            var error = await responseMessage.Content.ReadAsStringAsync();
             throw new ApplicationException(error);
         }
 
-        var stringContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken);
+        var stringContent = await responseMessage.Content.ReadAsStringAsync();
         var translationResultContent = JsonConvert.DeserializeObject<TranslationResult>(stringContent);
         return translationResultContent?.translations?.Select(x => x.text ?? "") ?? Enumerable.Empty<string>();
     }

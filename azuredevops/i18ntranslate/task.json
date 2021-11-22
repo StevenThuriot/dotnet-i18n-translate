@@ -46,7 +46,7 @@
       "name": "translateVersion",
       "type": "string",
       "label": "Tool version",
-      "defaultValue": "1.0.0",
+      "defaultValue": "1.0.1",
       "required": false,
       "helpMarkDown": "dotnet tool version that will be used."
     }
