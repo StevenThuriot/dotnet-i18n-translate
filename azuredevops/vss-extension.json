@@ -4,6 +4,7 @@
   "name": "i18n-translate",
   "version": "1.0.0",
   "publisher": "StevenThuriot",
+  "public": true,
   "helpMarkDown": "[More Information](https://github.com/StevenThuriot/dotnet-i18n-translate)",
   "targets": [
     {
