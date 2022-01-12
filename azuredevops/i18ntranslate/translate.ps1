@@ -7,8 +7,6 @@ if (!$myBranch) {
 
 $myBranch = $myBranch.substring(11);
 
-[string]$authkey = Get-VstsInput -Name authkey -Require
-
 [string]$cwd = Get-VstsInput -Name cwd
 if ($cwd) {
     Assert-VstsPath -LiteralPath $cwd -PathType Container
@@ -24,29 +22,46 @@ git checkout -f $myBranch
 git reset --hard origin/$myBranch
 
 dotnet new tool-manifest --force
+[string]$installCommand = 'dotnet tool install --local dotnet-i18n-translate'
 
 if ($translateVersion) {
-    dotnet  tool install --local dotnet-i18n-translate --version $translateVersion
-} else {
-    dotnet  tool install --local dotnet-i18n-translate
+    $installCommand = "$installCommand --version $translateVersion"
 }
+
+iex $installCommand
 
 [string]$defaultLanguage = Get-VstsInput -Name defaultLanguage
+[bool]$validateOnly = Get-VstsInput -Name validate
+
+[string]$translateCommand = 'dotnet i18n-translate'
 
 if ($defaultLanguage) {
-    dotnet i18n-translate -a $authkey -l $defaultLanguage
-} else {
-    dotnet i18n-translate -a $authkey
+    $translateCommand = "$translateCommand -l $defaultLanguage"
 }
 
-git add '*.json'
-git reset './.config'
+if ($validateOnly -eq $true) {
+    $translateCommand = "$translateCommand --validate"
+} else {
+    [string]$authkey = Get-VstsInput -Name authkey -Require
+    $translateCommand = "$translateCommand -a $authkey"
+}
 
-if(git status --porcelain |Where-Object {$_ -notmatch '^\?\?'}) {
-    git config --global user.name "Steven Thuriot"
-    git config --global user.email i18n@thuriot.be
+[bool]$success = iex "$translateCommand;$?"
 
-    git commit -m 'i18n-translate'
-    git push
-    exit 1 # fail current build. Push will trigger a new build
+if ($success -ne $true) {
+    exit 1 # fail current build. Running i18n-translate failed
+}
+
+if ($validateOnly -ne $true) {
+    git add '*.json'
+    git reset './.config'
+
+    if(git status --porcelain |Where-Object {$_ -notmatch '^\?\?'}) {
+        git config --global user.name "Steven Thuriot"
+        git config --global user.email i18n@thuriot.be
+
+        git commit -m 'i18n-translate'
+        git push
+        exit 1 # fail current build. Push will trigger a new build
+    }
 }

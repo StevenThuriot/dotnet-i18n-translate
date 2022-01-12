@@ -1,4 +1,5 @@
 ﻿using dotnet_i18n_translate;
+using dotnet_i18n_translate.Translators;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http;
@@ -15,26 +16,40 @@ try
     }
 
     using var services = BuildServiceProvider();
-    await services.GetRequiredService<Translator>().Run();
+    var result = await services.GetRequiredService<ITranslator>().Run();
+
+    if (!result)
+    {
+        Environment.ExitCode = 1;
+    }
 }
 catch (ApplicationException e)
 {
     Console.WriteLine(e.Message);
+    Environment.ExitCode = 2;
 }
 
 ServiceProvider BuildServiceProvider()
 {
     var services = new ServiceCollection()
-                         .AddHttpClient().RemoveAll<IHttpMessageHandlerBuilderFilter>()
                          .AddLogging(c =>
                          {
                              c.AddConsoleFormatter<SuperSimpleConsoleFormatter, ConsoleFormatterOptions>().AddConsole(o => o.FormatterName = nameof(SuperSimpleConsoleFormatter));
                              c.AddDebug();
                              c.SetMinimumLevel(options.Verbose ? LogLevel.Trace : LogLevel.Information);
                          })
-                         .AddSingleton(options)
-                         .AddSingleton<ITranslationService, DeepLTranslationService>()
-                         .AddSingleton<Translator>();
+                         .AddSingleton(options);
+
+    if (options.Validate)
+    {
+        services = services.AddSingleton<ITranslator, ValidatingTranslator>();
+    }
+    else
+    {
+        services = services.AddHttpClient().RemoveAll<IHttpMessageHandlerBuilderFilter>()
+                           .AddSingleton<ITranslationService, DeepLTranslationService>()
+                           .AddSingleton<ITranslator, Translator>();
+    }
 
     return services.BuildServiceProvider();
 }

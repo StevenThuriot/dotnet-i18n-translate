@@ -19,14 +19,24 @@ public class Options
     [Option('k', "key", Required = false, HelpText = "Specific key to translate. If it already exists it will be overwritten.")]
     public IEnumerable<string>? SpecificKeys { get; set; } = null!;
 
+    [Option("validate", Required = false, HelpText = "Only validate without actually translating.", Default = false)]
+    public bool Validate { get; set; }
+
     public static Options? Get(IEnumerable<string> args)
     {
         if (!args.Contains("-a") && !args.Contains("--authkey"))
         {
-            var key = Environment.GetEnvironmentVariable("DeepLAuthKey");
-            if (!string.IsNullOrWhiteSpace(key))
+            if (args.Contains("--validate"))
             {
-                args = args.Append("-a").Append(key).ToList();
+                args = args.Append("-a").Append("fake_key").ToList();
+            }
+            else
+            {
+                var key = Environment.GetEnvironmentVariable("DeepLAuthKey");
+                if (!string.IsNullOrWhiteSpace(key))
+                {
+                    args = args.Append("-a").Append(key).ToList();
+                }
             }
         }
 

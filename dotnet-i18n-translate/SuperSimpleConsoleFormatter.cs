@@ -29,7 +29,7 @@ internal sealed class SuperSimpleConsoleFormatter : ConsoleFormatter, IDisposabl
         {
             return;
         }
-        
+
         LogLevel logLevel = logEntry.LogLevel;
         Exception? exception = logEntry.Exception;
 
@@ -50,22 +50,16 @@ internal sealed class SuperSimpleConsoleFormatter : ConsoleFormatter, IDisposabl
 
         if (!string.IsNullOrEmpty(text))
         {
-            WriteReplacingNewLine(textWriter, text);
+            textWriter.Write(text);
         }
 
         if (exception is not null)
         {
             textWriter.Write(' ');
-            WriteReplacingNewLine(textWriter, exception.ToString());
+            textWriter.Write(exception.ToString());
         }
 
         textWriter.Write(Environment.NewLine);
-
-        static void WriteReplacingNewLine(TextWriter writer, string message)
-        {
-            string value = message.Replace(Environment.NewLine, " ");
-            writer.Write(value);
-        }
     }
 
     private DateTimeOffset GetCurrentDateTime() => FormatterOptions.UseUtcTimestamp ? DateTimeOffset.UtcNow : DateTimeOffset.Now;
