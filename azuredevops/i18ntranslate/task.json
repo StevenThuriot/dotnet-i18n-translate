@@ -13,8 +13,8 @@
   "demands": [],
   "version": {
     "Major": "1",
-    "Minor": "0",
-    "Patch": "0"
+    "Minor": "1",
+    "Patch": "2"
   },
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "i18ntranslate $(message)",
@@ -23,7 +23,7 @@
       "name": "authkey",
       "type": "string",
       "label": "DeepL AuthKey",
-      "required": true,
+      "required": false,
       "helpMarkDown": "Auth Key used for the DeepL API."
     },
     {
@@ -46,9 +46,17 @@
       "name": "translateVersion",
       "type": "string",
       "label": "Tool version",
-      "defaultValue": "1.0.1",
+      "defaultValue": "1.1.0",
       "required": false,
       "helpMarkDown": "dotnet tool version that will be used."
+    },
+    {
+      "name": "validate",
+      "type": "boolean",
+      "label": "Run validation only",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "Don't actually translate, only run validation to check for missing keys."
     }
   ],
   "execution": {

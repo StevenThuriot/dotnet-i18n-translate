@@ -3,14 +3,14 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<Nullable>enable</Nullable>
-    <TargetFrameworks>netcoreapp3.1;net50;net6.0</TargetFrameworks>
-    <LangVersion>10.0</LangVersion>
+		<TargetFrameworks>netcoreapp3.1;net50;net6.0</TargetFrameworks>
+		<LangVersion>10.0</LangVersion>
 		<RootNamespace>dotnet_i18n_translate</RootNamespace>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>i18n-translate</ToolCommandName>
 		<Authors>Steven Thuriot</Authors>
 		<Company />
-		<Version>1.0.1</Version>
+		<Version>1.1.0</Version>
 		<Description>Helper tool to translate ngx translate files</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/StevenThuriot/dotnet-i18n-translate</PackageProjectUrl>
@@ -22,10 +22,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\azuredevops\i18ntranslate\icon.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="..\azuredevops\i18ntranslate\icon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,5 +36,9 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release' ">
+	  <Exec Command="call npm run tfx-create --prefix ../azuredevops" />
+	</Target>
 
 </Project>
