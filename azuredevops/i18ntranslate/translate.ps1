@@ -2,7 +2,8 @@ $myBranch = $env:SYSTEM_PULLREQUEST_SOURCEBRANCH;
 
 if (!$myBranch) {
     Write-Error "Task could not determine value for the SYSTEM_PULLREQUEST_SOURCEBRANCH environment variable"
-    exit 1 #fail, not a PR
+	Write-Host "##vso[task.complete result=Failed;]Task should only run in PR builds"
+	exit 1
 }
 
 $myBranch = $myBranch.substring(11);
@@ -49,6 +50,7 @@ if ($validateOnly -eq $true) {
 [bool]$success = iex "$translateCommand;$?"
 
 if ($success -ne $true) {
+    Write-Host "##vso[task.complete result=Failed;]Errors found while running translations"
     exit 1 # fail current build. Running i18n-translate failed
 }
 
@@ -62,6 +64,8 @@ if ($validateOnly -ne $true) {
 
         git commit -m 'i18n-translate'
         git push
+		
+		Write-Host "##vso[task.complete result=Failed;]Pushed new translations"
         exit 1 # fail current build. Push will trigger a new build
     }
 }
