@@ -23,33 +23,33 @@ git checkout -f $myBranch
 git reset --hard origin/$myBranch
 
 dotnet new tool-manifest --force
-[string]$installCommand = 'dotnet tool install --local dotnet-i18n-translate'
 
 if ($translateVersion) {
-    $installCommand = "$installCommand --version $translateVersion"
+    dotnet tool install --local dotnet-i18n-translate --version $translateVersion
+} else {
+    dotnet tool install --local dotnet-i18n-translate
 }
-
-iex $installCommand
 
 [string]$defaultLanguage = Get-VstsInput -Name defaultLanguage
-[bool]$validateOnly = Get-VstsInput -Name validate
-
-[string]$translateCommand = 'dotnet i18n-translate'
+[bool]$validateOnly = Get-VstsInput -Name validate -AsBool
 
 if ($defaultLanguage) {
-    $translateCommand = "$translateCommand -l $defaultLanguage"
-}
-
-if ($validateOnly -eq $true) {
-    $translateCommand = "$translateCommand --validate"
+    if ($validateOnly -eq $true) {
+        dotnet i18n-translate -l $defaultLanguage --validate
+    } else {
+        [string]$authkey = Get-VstsInput -Name authkey -Require
+        dotnet i18n-translate -l $defaultLanguage -a $authkey
+    }
 } else {
-    [string]$authkey = Get-VstsInput -Name authkey -Require
-    $translateCommand = "$translateCommand -a $authkey"
+    if ($validateOnly -eq $true) {
+        dotnet i18n-translate --validate
+    } else {
+        [string]$authkey = Get-VstsInput -Name authkey -Require
+        dotnet i18n-translate -a $authkey
+    }
 }
 
-[bool]$success = iex "$translateCommand;$?"
-
-if ($success -ne $true) {
+if ($? -ne $true) {
     Write-Host "##vso[task.complete result=Failed;]Errors found while running translations"
     exit 1 # fail current build. Running i18n-translate failed
 }
