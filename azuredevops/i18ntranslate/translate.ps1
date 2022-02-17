@@ -17,10 +17,12 @@ if ($cwd) {
 }
 
 [string]$translateVersion = Get-VstsInput -Name translateVersion
+[bool]$validateOnly = Get-VstsInput -Name validate -AsBool
 
-git fetch origin $myBranch
-git checkout -f $myBranch
-git reset --hard origin/$myBranch
+if ($validateOnly -ne $true) {
+    git switch -f $myBranch
+    git pull
+}
 
 dotnet new tool-manifest --force
 
@@ -31,7 +33,6 @@ if ($translateVersion) {
 }
 
 [string]$defaultLanguage = Get-VstsInput -Name defaultLanguage
-[bool]$validateOnly = Get-VstsInput -Name validate -AsBool
 
 if ($defaultLanguage) {
     if ($validateOnly -eq $true) {
