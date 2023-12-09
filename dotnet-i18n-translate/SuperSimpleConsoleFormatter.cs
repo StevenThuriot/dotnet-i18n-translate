@@ -7,7 +7,7 @@ namespace dotnet_i18n_translate;
 
 internal sealed class SuperSimpleConsoleFormatter : ConsoleFormatter, IDisposable
 {
-	private readonly IDisposable _optionsReloadToken;
+	private readonly IDisposable? _optionsReloadToken;
 	private ConsoleFormatterOptions FormatterOptions { get; set; }
 
 	public SuperSimpleConsoleFormatter(IOptionsMonitor<ConsoleFormatterOptions> options)
@@ -22,7 +22,7 @@ internal sealed class SuperSimpleConsoleFormatter : ConsoleFormatter, IDisposabl
 		_optionsReloadToken?.Dispose();
 	}
 
-	public override void Write<TState>(in LogEntry<TState> logEntry, IExternalScopeProvider scopeProvider, TextWriter textWriter)
+	public override void Write<TState>(in LogEntry<TState> logEntry, IExternalScopeProvider? _, TextWriter textWriter)
     {
         string text = logEntry.Formatter!(logEntry.State, logEntry.Exception);
         if (logEntry.Exception == null && text == null)
@@ -40,7 +40,7 @@ internal sealed class SuperSimpleConsoleFormatter : ConsoleFormatter, IDisposabl
             textWriter.Write(": ");
         }
 
-        string timestampFormat = FormatterOptions.TimestampFormat;
+        string? timestampFormat = FormatterOptions.TimestampFormat;
 
         if (timestampFormat is not null)
         {

@@ -58,7 +58,7 @@ public class JsonPath : IEquatable<JsonPath>
 
         foreach (string section in _path.Take(_path.Count - 1))
         {
-            newObject[section] = newObject = new JObject();
+            newObject[section] = newObject = new();
         }
 
         newObject[_path.Last()] = value;

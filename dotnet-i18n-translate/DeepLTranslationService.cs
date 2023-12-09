@@ -70,14 +70,6 @@ public sealed class DeepLTranslationService : ITranslationService
 
     private static KeyValuePair<string, string> Pair(string key, string value) => new(key, value);
 
-    class TranslationResult
-    {
-        public IEnumerable<Translation>? translations { get; set; }
-    }
-
-    class Translation
-    {
-        public string? detected_source_language { get; set; }
-        public string? text { get; set; }
-    }
+    sealed record TranslationResult(IEnumerable<Translation>? translations);
+    sealed record Translation(string? detected_source_language, string? text);
 }

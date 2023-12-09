@@ -11,13 +11,13 @@ public class Options
     public string Language { get; set; } = "en";
 
     [Option('t', "target", Required = false, HelpText = "The target language. If unset, all languages will be selected.")]
-    public string? TargetLanguage { get; set; } = null!;
+    public string? TargetLanguage { get; set; }
 
     [Option('a', "authkey", Required = true, HelpText = "DeepL Auth Key. If not set, tries to use DeepLAuthKey environment variable instead. Required if no such variable exists.")]
     public string AuthKey { get; set; } = null!;
 
     [Option('k', "key", Required = false, HelpText = "Specific key to translate. If it already exists it will be overwritten.")]
-    public IEnumerable<string>? SpecificKeys { get; set; } = null!;
+    public IEnumerable<string>? SpecificKeys { get; set; }
 
     [Option("validate", Required = false, HelpText = "Only validate without actually translating.", Default = false)]
     public bool Validate { get; set; }
